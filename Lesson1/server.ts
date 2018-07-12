@@ -3,8 +3,6 @@ import { getData, saveData } from "./io";
 
 const PATH = "/index.html";
 
-
-
 var server: http.Server = http.createServer(
     (request, response) => {
         if (request.url === PATH) {

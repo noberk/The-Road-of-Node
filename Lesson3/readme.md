@@ -1,1 +1,5 @@
-获取url
+``` typescript
+import * as urlLib from "url";
+```
+
+# 获取url
