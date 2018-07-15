@@ -1,25 +1,44 @@
 import * as Express from "express";
-
+import * as bodyParser from "body-parser";
+import * as query from 'querystring';
 const server = Express();
-
+server.listen(5000);
 interface User {
     userName: string;
     password: string;
+    stamp: boolean;
 }
-const allowCrossDomain = function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    next();
-};
+const allowCrossDomain =
+    (req, res, next) => {
+        res.header('Access-Control-Allow-Origin', '*');
+        next();
+    };
+server.use((req, res, next) => {
+    var str = '';
+    req.on("data", (data) => {
+        str += data;
+    })
+    req.on("end", () => {
+        req.body = str;
 
-server.use(allowCrossDomain);
+        next();
+
+    })
+
+})
+
+
+// server.use(allowCrossDomain);
+
 server.use('/',
     (req, res) => {
-        res.send(<User>{ userName: "lee2", password: "123" });
+        console.log(req.body);
+        res.write(JSON.stringify(query.parse<User>(req.body)));
         res.end();
     }
 )
 
 
 
-server.listen(5000);
+
 
